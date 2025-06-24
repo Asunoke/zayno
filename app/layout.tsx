@@ -44,8 +44,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     url: "https://bcb.ml",
-    siteName: "BCB - Bamako Capital Bridge",
-    title: "BCB - Votre Pont vers l'Avenir Financier",
+    siteName: "Zayno",
+    title: "ZAYNO la néo-banque africaine digitale, pensée pour la nouvelle génération.",
     description:
       "Services financiers digitaux modernes et sécurisés au Mali. Transferts instantanés, prêts intelligents, et bien plus.",
     images: [
@@ -53,13 +53,13 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "BCB - Bamako Capital Bridge",
+        alt: "zayno",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "BCB - Bamako Capital Bridge",
+    title: "Zayno",
     description: "Votre partenaire fintech de confiance au Mali",
     images: ["/og-image.jpg"],
     creator: "@BCB_Mali",
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
       "en-US": "https://bcb.ml/en",
     },
   },
-    generator: 'v0.dev'
+    generator: 'Tenoble Softwares'
 }
 
 export default function RootLayout({
