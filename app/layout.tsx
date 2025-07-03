@@ -50,7 +50,7 @@ export const metadata: Metadata = {
       "Services financiers digitaux modernes et sécurisés au Mali. Transferts instantanés, prêts intelligents, et bien plus.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/zayno.webp",
         width: 1200,
         height: 630,
         alt: "zayno",
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Zayno",
     description: "Votre partenaire fintech de confiance au Mali",
-    images: ["/og-image.jpg"],
+    images: ["/zayno.webp"],
     creator: "@BCB_Mali",
   },
   verification: {

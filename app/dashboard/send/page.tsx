@@ -1,6 +1,4 @@
-"use client"
-
-import type React from "react"
+'use client'
 
 import { useState } from "react"
 import { useSession } from "next-auth/react"
@@ -11,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, Send, User, DollarSign, MessageSquare, CheckCircle, AlertTriangle } from "lucide-react"
+import { ArrowLeft, Send, User, DollarSign, MessageSquare, CheckCircle, AlertTriangle, Loader2 } from "lucide-react"
 import Link from "next/link"
 
 export default function SendMoneyPage() {
@@ -60,15 +58,22 @@ export default function SendMoneyPage() {
   }
 
   if (!session) {
-    return <div>Chargement...</div>
+    return (
+      <div className="min-h-screen bg-[#1F2937] flex items-center justify-center">
+        <div className="flex items-center space-x-2 text-[#F7F7F7]">
+          <Loader2 className="h-6 w-6 animate-spin text-[#6C8C68]" />
+          <span>Chargement...</span>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#1F2937]">
       <div className="container mx-auto px-4 py-8">
         <Link
           href="/dashboard"
-          className="inline-flex items-center text-primary hover:text-primary/80 transition-colors mb-8"
+          className="inline-flex items-center text-[#6C8C68] hover:text-[#5A7A56] transition-colors mb-8"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Retour au tableau de bord
@@ -79,19 +84,25 @@ export default function SendMoneyPage() {
           <div className="flex items-center justify-center mb-8">
             <div className="flex items-center space-x-4">
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ? "bg-primary text-white" : "bg-gray-200"}`}
+                className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  step >= 1 ? "bg-[#6C8C68] text-white" : "bg-[#3A3F58] text-[#B0B7C3]"
+                }`}
               >
                 1
               </div>
-              <div className={`w-16 h-1 ${step >= 2 ? "bg-primary" : "bg-gray-200"}`}></div>
+              <div className={`w-16 h-1 ${step >= 2 ? "bg-[#6C8C68]" : "bg-[#3A3F58]"}`}></div>
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? "bg-primary text-white" : "bg-gray-200"}`}
+                className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  step >= 2 ? "bg-[#6C8C68] text-white" : "bg-[#3A3F58] text-[#B0B7C3]"
+                }`}
               >
                 2
               </div>
-              <div className={`w-16 h-1 ${step >= 3 ? "bg-primary" : "bg-gray-200"}`}></div>
+              <div className={`w-16 h-1 ${step >= 3 ? "bg-[#6C8C68]" : "bg-[#3A3F58]"}`}></div>
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 3 ? "bg-primary text-white" : "bg-gray-200"}`}
+                className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  step >= 3 ? "bg-[#6C8C68] text-white" : "bg-[#3A3F58] text-[#B0B7C3]"
+                }`}
               >
                 3
               </div>
@@ -100,18 +111,20 @@ export default function SendMoneyPage() {
 
           {/* Step 1: Enter Details */}
           {step === 1 && (
-            <Card>
+            <Card className="bg-[#1E2A47] border-[#3A3F58]">
               <CardHeader>
-                <CardTitle className="text-2xl text-primary flex items-center">
-                  <Send className="h-6 w-6 mr-2" />
+                <CardTitle className="text-2xl text-[#F7F7F7] flex items-center">
+                  <Send className="h-6 w-6 mr-2 text-[#6C8C68]" />
                   Envoyer de l'argent
                 </CardTitle>
-                <CardDescription>Entrez les détails du destinataire et le montant</CardDescription>
+                <CardDescription className="text-[#B0B7C3]">
+                  Entrez les détails du destinataire et le montant
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="recipientBcbId" className="flex items-center">
-                    <User className="h-4 w-4 mr-2" />
+                  <Label htmlFor="recipientBcbId" className="flex items-center text-[#F7F7F7]">
+                    <User className="h-4 w-4 mr-2 text-[#6C8C68]" />
                     BCB ID du destinataire
                   </Label>
                   <Input
@@ -120,15 +133,16 @@ export default function SendMoneyPage() {
                     value={formData.recipientBcbId}
                     onChange={(e) => setFormData({ ...formData, recipientBcbId: e.target.value })}
                     required
+                    className="bg-[#3A3F58] border-[#3A3F58] text-[#F7F7F7] focus:border-[#6C8C68]"
                   />
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-[#B0B7C3]">
                     Le BCB ID est un identifiant unique de 9 caractères (ex: BCB123456)
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="amount" className="flex items-center">
-                    <DollarSign className="h-4 w-4 mr-2" />
+                  <Label htmlFor="amount" className="flex items-center text-[#F7F7F7]">
+                    <DollarSign className="h-4 w-4 mr-2 text-[#6C8C68]" />
                     Montant (FCFA)
                   </Label>
                   <Input
@@ -139,16 +153,17 @@ export default function SendMoneyPage() {
                     value={formData.amount}
                     onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                     required
+                    className="bg-[#3A3F58] border-[#3A3F58] text-[#F7F7F7] focus:border-[#6C8C68]"
                   />
-                  <div className="flex justify-between text-sm text-muted-foreground">
+                  <div className="flex justify-between text-sm text-[#B0B7C3]">
                     <span>Minimum: 100 FCFA</span>
                     <span>Frais: Gratuit</span>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="description" className="flex items-center">
-                    <MessageSquare className="h-4 w-4 mr-2" />
+                  <Label htmlFor="description" className="flex items-center text-[#F7F7F7]">
+                    <MessageSquare className="h-4 w-4 mr-2 text-[#6C8C68]" />
                     Description (optionnel)
                   </Label>
                   <Textarea
@@ -157,10 +172,15 @@ export default function SendMoneyPage() {
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     rows={3}
+                    className="bg-[#3A3F58] border-[#3A3F58] text-[#F7F7F7] focus:border-[#6C8C68]"
                   />
                 </div>
 
-                <Button onClick={handleNext} className="w-full" disabled={!formData.recipientBcbId || !formData.amount}>
+                <Button
+                  onClick={handleNext}
+                  className="w-full bg-[#6C8C68] hover:bg-[#5A7A56]"
+                  disabled={!formData.recipientBcbId || !formData.amount}
+                >
                   Continuer
                 </Button>
               </CardContent>
@@ -169,43 +189,47 @@ export default function SendMoneyPage() {
 
           {/* Step 2: Confirmation */}
           {step === 2 && (
-            <Card>
+            <Card className="bg-[#1E2A47] border-[#3A3F58]">
               <CardHeader>
-                <CardTitle className="text-2xl text-primary">Confirmer le transfert</CardTitle>
-                <CardDescription>Vérifiez les détails avant de confirmer</CardDescription>
+                <CardTitle className="text-2xl text-[#F7F7F7]">Confirmer le transfert</CardTitle>
+                <CardDescription className="text-[#B0B7C3]">Vérifiez les détails avant de confirmer</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="bg-muted/50 p-4 rounded-lg space-y-4">
+                <div className="bg-[#3A3F58]/50 p-4 rounded-lg space-y-4">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Destinataire</span>
-                    <span className="font-medium">{formData.recipientBcbId}</span>
+                    <span className="text-[#B0B7C3]">Destinataire</span>
+                    <span className="font-medium text-[#F7F7F7]">{formData.recipientBcbId}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Montant</span>
-                    <span className="font-medium text-lg">{Number(formData.amount).toLocaleString()} FCFA</span>
+                    <span className="text-[#B0B7C3]">Montant</span>
+                    <span className="font-medium text-lg text-[#F7F7F7]">
+                      {Number(formData.amount).toLocaleString()} FCFA
+                    </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Frais</span>
-                    <Badge variant="secondary" className="bg-green-100 text-green-700">
+                    <span className="text-[#B0B7C3]">Frais</span>
+                    <Badge className="bg-[#6C8C68]/20 text-[#6C8C68] border-[#6C8C68]/30">
                       Gratuit
                     </Badge>
                   </div>
-                  <div className="flex justify-between border-t pt-4">
-                    <span className="font-medium">Total à débiter</span>
-                    <span className="font-bold text-lg">{Number(formData.amount).toLocaleString()} FCFA</span>
+                  <div className="flex justify-between border-t border-[#3A3F58] pt-4">
+                    <span className="font-medium text-[#F7F7F7]">Total à débiter</span>
+                    <span className="font-bold text-lg text-[#F7F7F7]">
+                      {Number(formData.amount).toLocaleString()} FCFA
+                    </span>
                   </div>
                   {formData.description && (
-                    <div className="border-t pt-4">
-                      <span className="text-muted-foreground">Description</span>
-                      <p className="mt-1">{formData.description}</p>
+                    <div className="border-t border-[#3A3F58] pt-4">
+                      <span className="text-[#B0B7C3]">Description</span>
+                      <p className="mt-1 text-[#F7F7F7]">{formData.description}</p>
                     </div>
                   )}
                 </div>
 
-                <div className="bg-orange-50 dark:bg-orange-950 p-4 rounded-lg">
+                <div className="bg-[#6C8C68]/10 border border-[#6C8C68]/30 p-4 rounded-lg">
                   <div className="flex items-start space-x-2">
-                    <AlertTriangle className="h-4 w-4 text-orange-600 mt-0.5" />
-                    <div className="text-sm text-orange-800 dark:text-orange-200">
+                    <AlertTriangle className="h-4 w-4 text-[#6C8C68] mt-0.5" />
+                    <div className="text-sm text-[#6C8C68]">
                       <p className="font-medium mb-1">Important</p>
                       <p>Assurez-vous que le BCB ID est correct. Les transferts sont instantanés et irréversibles.</p>
                     </div>
@@ -213,11 +237,26 @@ export default function SendMoneyPage() {
                 </div>
 
                 <div className="flex space-x-4">
-                  <Button variant="outline" onClick={() => setStep(1)} className="flex-1">
+                  <Button
+                    variant="outline"
+                    onClick={() => setStep(1)}
+                    className="flex-1 border-[#3A3F58] text-[#F7F7F7] hover:bg-[#3A3F58]"
+                  >
                     Retour
                   </Button>
-                  <Button onClick={handleSubmit} disabled={loading} className="flex-1">
-                    {loading ? "Envoi en cours..." : "Confirmer le transfert"}
+                  <Button
+                    onClick={handleSubmit}
+                    disabled={loading}
+                    className="flex-1 bg-[#6C8C68] hover:bg-[#5A7A56]"
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Envoi en cours...
+                      </>
+                    ) : (
+                      "Confirmer le transfert"
+                    )}
                   </Button>
                 </div>
               </CardContent>
@@ -226,27 +265,34 @@ export default function SendMoneyPage() {
 
           {/* Step 3: Success */}
           {step === 3 && (
-            <Card>
+            <Card className="bg-[#1E2A47] border-[#3A3F58]">
               <CardContent className="pt-6">
                 <div className="text-center space-y-6">
-                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                    <CheckCircle className="h-8 w-8 text-green-600" />
+                  <div className="w-16 h-16 bg-[#6C8C68]/20 rounded-full flex items-center justify-center mx-auto">
+                    <CheckCircle className="h-8 w-8 text-[#6C8C68]" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-primary mb-2">Transfert réussi ! 🎉</h2>
-                    <p className="text-muted-foreground">
+                    <h2 className="text-2xl font-bold text-[#F7F7F7] mb-2">Transfert réussi ! 🎉</h2>
+                    <p className="text-[#B0B7C3]">
                       Votre transfert de {Number(formData.amount).toLocaleString()} FCFA a été envoyé avec succès.
                     </p>
                   </div>
-                  <div className="bg-muted/50 p-4 rounded-lg">
-                    <p className="text-sm text-muted-foreground mb-2">Référence de transaction</p>
-                    <p className="font-mono text-lg">BCB{Date.now()}</p>
+                  <div className="bg-[#3A3F58]/50 p-4 rounded-lg">
+                    <p className="text-sm text-[#B0B7C3] mb-2">Référence de transaction</p>
+                    <p className="font-mono text-lg text-[#F7F7F7]">BCB{Date.now()}</p>
                   </div>
                   <div className="flex space-x-4">
-                    <Button variant="outline" onClick={() => router.push("/dashboard")} className="flex-1">
+                    <Button
+                      variant="outline"
+                      onClick={() => router.push("/dashboard")}
+                      className="flex-1 border-[#3A3F58] text-[#F7F7F7] hover:bg-[#3A3F58]"
+                    >
                       Retour au tableau de bord
                     </Button>
-                    <Button onClick={() => setStep(1)} className="flex-1">
+                    <Button
+                      onClick={() => setStep(1)}
+                      className="flex-1 bg-[#6C8C68] hover:bg-[#5A7A56]"
+                    >
                       Nouveau transfert
                     </Button>
                   </div>

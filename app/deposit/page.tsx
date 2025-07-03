@@ -1,6 +1,4 @@
-"use client"
-
-import type React from "react"
+'use client'
 
 import { useState } from "react"
 import { useSession } from "next-auth/react"
@@ -9,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ArrowLeft, Clock, Smartphone, Building } from "lucide-react"
+import { ArrowLeft, Clock, Smartphone, Building, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
@@ -45,7 +43,6 @@ export default function DepositPage() {
       const data = await response.json()
 
       if (response.ok) {
-        // Redirect to payment confirmation page
         router.push(`/deposit/confirm/${data.deposit.id}`)
       } else {
         alert(data.error || "Erreur lors de la création de la demande")
@@ -59,30 +56,41 @@ export default function DepositPage() {
   }
 
   if (!session) {
-    return <div>Chargement...</div>
+    return (
+      <div className="min-h-screen bg-[#1F2937] flex items-center justify-center">
+        <div className="flex items-center space-x-2 text-[#F7F7F7]">
+          <Loader2 className="h-6 w-6 animate-spin text-[#6C8C68]" />
+          <span>Chargement...</span>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#1F2937]">
       <div className="container mx-auto px-4 py-8">
         <Link
           href="/dashboard"
-          className="inline-flex items-center text-primary hover:text-primary/80 transition-colors mb-8"
+          className="inline-flex items-center text-[#6C8C68] hover:text-[#5A7A56] transition-colors mb-8"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Retour au tableau de bord
         </Link>
 
         <div className="max-w-2xl mx-auto">
-          <Card>
+          <Card className="bg-[#1E2A47] border-[#3A3F58]">
             <CardHeader>
-              <CardTitle className="text-2xl text-primary">Recharger votre compte</CardTitle>
-              <CardDescription>Ajoutez des fonds à votre compte BCB en toute sécurité</CardDescription>
+              <CardTitle className="text-2xl text-[#F7F7F7]">Recharger votre compte</CardTitle>
+              <CardDescription className="text-[#B0B7C3]">
+                Ajoutez des fonds à votre compte ZAYNO en toute sécurité
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="amount">Montant à déposer (FCFA)</Label>
+                  <Label htmlFor="amount" className="text-[#F7F7F7]">
+                    Montant à déposer (FCFA)
+                  </Label>
                   <Input
                     id="amount"
                     type="number"
@@ -92,23 +100,32 @@ export default function DepositPage() {
                     value={formData.amount}
                     onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                     required
+                    className="bg-[#3A3F58] border-[#3A3F58] text-[#F7F7F7] focus:border-[#6C8C68]"
                   />
-                  <p className="text-sm text-muted-foreground">Montant minimum: 1,000 FCFA - Maximum: 1,000,000 FCFA</p>
+                  <p className="text-sm text-[#B0B7C3]">
+                    Montant minimum: 1,000 FCFA - Maximum: 1,000,000 FCFA
+                  </p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="paymentMethod">Méthode de paiement</Label>
+                  <Label htmlFor="paymentMethod" className="text-[#F7F7F7]">
+                    Méthode de paiement
+                  </Label>
                   <Select
                     value={formData.paymentMethod}
                     onValueChange={(value) => setFormData({ ...formData, paymentMethod: value })}
                     required
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-[#3A3F58] border-[#3A3F58] text-[#F7F7F7]">
                       <SelectValue placeholder="Choisissez votre méthode de paiement" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-[#1E2A47] border-[#3A3F58]">
                       {paymentMethods.map((method) => (
-                        <SelectItem key={method.value} value={method.value}>
+                        <SelectItem
+                          key={method.value}
+                          value={method.value}
+                          className="hover:bg-[#3A3F58] focus:bg-[#3A3F58]"
+                        >
                           <div className="flex items-center space-x-2">
                             <div className={`w-4 h-4 rounded ${method.color}`}></div>
                             <span>{method.label}</span>
@@ -121,7 +138,9 @@ export default function DepositPage() {
 
                 {(formData.paymentMethod === "ORANGE_MONEY" || formData.paymentMethod === "MOOV_MONEY") && (
                   <div className="space-y-2">
-                    <Label htmlFor="phoneNumber">Numéro de téléphone</Label>
+                    <Label htmlFor="phoneNumber" className="text-[#F7F7F7]">
+                      Numéro de téléphone
+                    </Label>
                     <Input
                       id="phoneNumber"
                       type="tel"
@@ -129,29 +148,37 @@ export default function DepositPage() {
                       value={formData.phoneNumber}
                       onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
                       required
+                      className="bg-[#3A3F58] border-[#3A3F58] text-[#F7F7F7] focus:border-[#6C8C68]"
                     />
                   </div>
                 )}
 
-                <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg">
-                  <div className="flex items-center space-x-2 text-blue-700 dark:text-blue-300 mb-2">
+                <div className="bg-[#6C8C68]/10 border border-[#6C8C68]/30 p-4 rounded-lg">
+                  <div className="flex items-center space-x-2 text-[#6C8C68] mb-2">
                     <Clock className="h-4 w-4" />
                     <span className="font-medium">Important</span>
                   </div>
-                  <ul className="text-sm text-blue-600 dark:text-blue-400 space-y-1">
+                  <ul className="text-sm text-[#6C8C68] space-y-1">
                     <li>• Vous aurez 50 minutes pour effectuer le paiement</li>
                     <li>• Un numéro de paiement vous sera fourni</li>
-                    <li>• Votre compte sera crédité après vérification par notre équipe</li>
+                    <li>• Votre compte sera crédité après vérification</li>
                     <li>• Gardez votre reçu de paiement comme preuve</li>
                   </ul>
                 </div>
 
                 <Button
                   type="submit"
-                  className="w-full"
+                  className="w-full bg-[#6C8C68] hover:bg-[#5A7A56]"
                   disabled={loading || !formData.amount || !formData.paymentMethod}
                 >
-                  {loading ? "Création en cours..." : "Créer la demande de dépôt"}
+                  {loading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Création en cours...
+                    </>
+                  ) : (
+                    "Créer la demande de dépôt"
+                  )}
                 </Button>
               </form>
             </CardContent>
